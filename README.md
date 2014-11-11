@@ -17,7 +17,7 @@ You can install this module in the general way.
 
     sudo python setup.py install
 
-# Sample
+## Sample
 
 ```
 python ./sample.py < ./sample.knp
