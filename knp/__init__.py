@@ -51,6 +51,9 @@ class BasicPhrase(object):
         cfno = val[c0+1:c1]
         self.__pas = PAS(cf, cfno)
     
+        if val.count(u":") < 2: #For copula
+            return
+        
         for k in val[c1+1 : -1].split(u';'):
             items = k.split(u"/")
             if items[1] != u"U" and  items[1] != u"-":
