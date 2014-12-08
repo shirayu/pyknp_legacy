@@ -118,6 +118,8 @@ class Sentence(object):
         self.__morphs = []
         self.__bps = []
         self.__bp2morph = [[0]]
+        self._start_position = 0
+        self.__bp2start_positions = []
         for line in lines:
             if line.startswith(u";;"):
                 pass
@@ -128,6 +130,7 @@ class Sentence(object):
             elif line.startswith(u"+ "): #new basic phrase
                 self.__bp2morph[-1].append(len(self.__morphs))
                 self.__bp2morph.append([len(self.__morphs)])
+                self.__bp2start_positions.append(self._start_position)
 
                 mybp = BasicPhrase(line)
                 self.__bps.append(mybp)
@@ -136,6 +139,7 @@ class Sentence(object):
             else:
                 first_space_pos = line[:-1].find(u" ")
                 self.__morphs.append(line[:first_space_pos])
+                self._start_position += len(line[:first_space_pos])
 
         self.__bp2morph[-1].append(len(self.__morphs))
         self.__bp2morph.append([len(self.__morphs), 0])
@@ -145,8 +149,8 @@ class Sentence(object):
         start, end = self.__bp2morph[bpindex]
         return self.__morphs[start:end]
 
-    def getPosition(self, bpindex):
-        return self.__bp2morph[bpindex]
+    def getStartPosition(self, bpindex):
+        return self.__bp2start_positions[bpindex]
 
     def getSurface(self):
         return u"".join(self.__morphs)
