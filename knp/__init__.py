@@ -145,6 +145,9 @@ class Sentence(object):
         start, end = self.__bp2morph[bpindex]
         return self.__morphs[start:end]
 
+    def getPosition(self, bpindex):
+        return self.__bp2morph[bpindex]
+
     def getSurface(self):
         return u"".join(self.__morphs)
 
