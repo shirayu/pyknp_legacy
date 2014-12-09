@@ -26,6 +26,15 @@ if __name__ == '__main__':
             syspas = bp.getPas()
             surf = u"".join(sent.getMorphs(bpindex))
 
+            sys.stdout.write(surf)
+            sys.stdout.write(u"\t")
+            for k,v in info.items():
+                sys.stdout.write(k)
+                sys.stdout.write(u":")
+                sys.stdout.write(v)
+                sys.stdout.write(u" ")
+            sys.stdout.write(u"\n")
+
             if syspas is not None:
                 sys.stdout.write(u"s:")
                 sys.stdout.write(sent.getSurface())

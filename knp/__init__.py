@@ -35,7 +35,7 @@ class BasicPhrase(object):
         assert isinstance(line, unicode)
         assert line.startswith(u"+ ")
 
-        self.__line = line
+        self.__line = line.rstrip()
         self.__info = {}
         self.__attributes = []
         self.__goldpas = None
@@ -159,6 +159,17 @@ class Sentence(object):
     def getBasicPhrases(self):
         return self.__bps
 
+class Sentences(list):
+    def __init__(self, f):
+        tmp = []
+        line = u""
+
+        for line in f:
+            tmp.append(line)
+            if line == u"EOS\n":
+                sent = Sentence(tmp)
+                self.append(sent)
+                tmp = []
 
 import subprocess
 import os
