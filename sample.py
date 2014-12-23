@@ -47,6 +47,6 @@ if __name__ == '__main__':
                     sys.stdout.write(u"\t")
                     sys.stdout.write(mycase)
                     sys.stdout.write(u":")
-                    sys.stdout.write(val[2])
+                    sys.stdout.write(val[u"arg"])
                 sys.stdout.write(u"\n")
 

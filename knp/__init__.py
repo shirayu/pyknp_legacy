@@ -24,14 +24,14 @@ def getKV(tagstr, start=0):
 import collections
 
 class PAS(dict):
-    def __init__(self, cf=None, cfno=None):
+    def __init__(self, name=None, no=None):
         dict.__init__(self)
-        self._cf = cf
-        self._cfno = cfno
+        self.name = name
+        self.no = no
 
 
 class BasicPhrase(object):
-    def __init__(self, line):
+    def __init__(self, line, position):
         assert isinstance(line, unicode)
         assert line.startswith(u"+ ")
 
@@ -41,13 +41,14 @@ class BasicPhrase(object):
         self.__goldpas = None
 #         self.__pas = collections.defaultdict(list)
         self.__pas = None
+        self.__position = position
 
         self.__getInfo()
 
     def __parsePAS(self, val):
         c0 = val.find(u':')
         c1 = val.find(u':', c0+1)
-        cf = val[:c0].split(u"/")[0]
+        cf = val[:c0]
         cfno = val[c0+1:c1]
         self.__pas = PAS(cf, cfno)
     
@@ -69,7 +70,7 @@ class BasicPhrase(object):
                 except:
                     myarg_sent_id = -1 #TODO
 
-                self.__pas[mycase] = (myarg_no, mycasetype, myarg)
+                self.__pas[mycase] = {u"no":myarg_no, u"type":mycasetype, u"arg":myarg, u"sid":myarg_sent_id}
 
     def __getInfo(self):
         second_space_position = self.__line.find(u' ', 2)
@@ -113,6 +114,9 @@ class BasicPhrase(object):
     def getInfo(self):
         return self.__info
 
+    def getPosition(self):
+        return self.__position
+
 class Sentence(object):
     def __init__(self, lines):
         self.__morphs = []
@@ -132,7 +136,7 @@ class Sentence(object):
                 self.__bp2morph.append([len(self.__morphs)])
                 self.__bp2start_positions.append(self._start_position)
 
-                mybp = BasicPhrase(line)
+                mybp = BasicPhrase(line, self._start_position)
                 self.__bps.append(mybp)
             elif line == u"EOS\n":
                 break
