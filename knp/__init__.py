@@ -55,20 +55,14 @@ class BasicPhrase(object):
         if val.count(u":") < 2: #For copula
             return
         
-        for k in val[c1+1 : -1].split(u';'):
+        for k in val[c1+1 : ].split(u';'):
             items = k.split(u"/")
             if items[1] != u"U" and  items[1] != u"-":
                 mycase = items[0]
                 mycasetype = items[1]
                 myarg = items[2]
-                try:
-                    myarg_no = int(items[3])
-                except:
-                    myarg_no = -1 #TODO
-                try:
-                    myarg_sent_id = int(items[5])
-                except:
-                    myarg_sent_id = -1 #TODO
+                myarg_no = int(items[3])
+                myarg_sent_id = int(items[5])
 
                 self.__pas[mycase] = {u"no":myarg_no, u"type":mycasetype, u"arg":myarg, u"sid":myarg_sent_id}
 
